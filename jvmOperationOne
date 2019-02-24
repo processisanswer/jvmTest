@@ -1,0 +1,91 @@
+---G1和回收时间点---
+G1回收器 garbage first
+    首先选择垃圾最多的一块进行垃圾收集。
+    内存分块，每块1-32M
+    每个块是young/old/survior
+    中的一种
+    大的层面，浮动垃圾很少
+------
+    应用线程和GC线程是怎么同步的
+        垃圾回收时的安全点概念
+    流程切换的时候，作为一个安全点。
+    其他时候不合适。
+        方法调用、循环跳转、异常跳转等等
+    安全区域：
+        线程不在运行状态
+----------------
+    调优：
+        首先看下JVM使用的垃圾回收器是什么？
+        catalina.out 看新生代GC
+        Server模式,老年代使用的
+            默认使用的是Parallel
+        看日志 一一对照着看
+        jconsole
+---GC日志---
+        设置：
+        -XX：-UseGCLogFileRotation
+        -XX: GCLogFileSize=8K
+------GC监控设置命令----
+  java -Xms128m -Xmx128m
+  -verbose:gc
+  -Xloggc:/home/administrator/log/gc.log
+  -XX:+HeapDumpOnOutOfMemoryError
+  -XX:HeapDumpPath=/home/administrator/error.hprof
+  -XX:+PrintGCApplicationStoppedTime
+  -XX:+PrintGCTimeStamps
+  -XX:+PrintCommandLineFlags
+  -XX:+PrintFlagsFinal
+  -XX:+PrintGCDetails
+  -XX:+UseCMSCompactAtFullCollection
+  -Dcom.sun.management.jmxremote.authenticate=false
+  -Dcom.sun.management.jmxremote.ssl=false
+  -Dcom.sun.management.jmxremote.port=9004
+  -Djava.rmi.server.hostname=177.1.1.122 -jar jvmOperation.jar >
+  catalina.out 2>&1 &
+
+---GC日志----
+    1 输出日志
+        -XX:+PrintGCTimeStamps
+        -XX:+PrintGCDetails
+        -Xloggc:/home/root/gclog/gc.log
+    2 日志文件控制
+    -XX:-UseGCLogFileRotation
+    -XX:GCLogFileSize=8K
+    3 看日志，对照图片看
+    -XX:+PrintHeapAtGC  打印GC时堆信息
+-----------CMS的日志 -----------------------------------
+选择使用CMS的GC
+---设置爱---
+-XX：+UseComcMarkSweepGC
+-XX:+UseCMSCompactAtFullCollection
+---JDK自带监控工具---
+    jmap
+    ---------------
+    jmap -heap [pid]
+    实时查看堆的使用情况
+
+
+    jstat
+    jstat -gcutil [pid] 3000
+    3秒钟输出一次gc的数据统计
+    jstat -gccause [pid] 3000
+    3秒输出上一次GC的原因
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
