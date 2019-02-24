@@ -1,0 +1,88 @@
+---JDK自带的监控工具---
+oracle 官网查看docs
+    jstat -gcutil pid 5000
+    jstat -gccause pid 5000
+    --jstack--
+    jstack 查看线程的dump
+    jvisualvm
+    jconsole
+-----
+    jstack 线程dump
+    线程的dump能够定位到方法
+    原理：方法是由线程执行的，线程是在
+    进程下执行的，找到进行下cpu最高的线程
+    就能定位到方法。
+    top找到CPU高的进程
+----------
+    死锁
+    两个线程互锁
+----------
+查看线程dump的关键字
+    DeadLock
+    BLOCKED
+
+线程名称
+线程类型
+优先级
+系统线程id nid=0x
+waiting for monitor entry
+BlOCKED
+-----------------
+死锁对系统的影响在哪里？
+    最重要的问题，在于资源消耗
+    调用方法时，互锁的线程不断会消耗。
+---------------------------------
+MAT 需要下载，一个工具
+    OOM时打印出信息
+    -XX:+HeapDumpOnOutOfMemoryError
+    -XX:HeapDumpPath=/home/oom/error.hprof
+内存泄漏怀疑点：
+    1 看GC日志，
+        old 区，full GC后没有变化
+    2 Dump文件，用MAT去看
+        占用的Retained Heap 很大
+        看有没有GC Root指向
+        如果有，需要检查代码
+
+参数基本策略
+    活跃数据---GC完了，老年代还有多少数据，多次统计。
+
+    总大小  3-4
+    新生代  1-1.5
+    老年代  2-3倍
+    永久代   2倍
+调优步骤：
+调优目标--优化参数--验收结果
+    高可用
+    低延迟
+    高吞吐
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
