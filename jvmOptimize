@@ -1,0 +1,64 @@
+CMS收集器
+Concurrent Mark Sweep 并发标记清除 不整理
+并发收集
+停顿低
+
+缺点
+    占用CPU资源
+    无法处理浮动垃圾
+    出现Concurrent Mode Failure
+    空间碎片
+工作在老年代
+    过程：
+    初始标记： 会出现STW
+    并发标记   用户线程和GC线程会同时工作，后续
+               有个预清理过程
+    重新标记   没有用户线程，完成标记整个老年代的所有的存活对象
+    并发清理
+---------------------optimize--------------------
+jps
+jstat -gcutil [pid] [millis]
+#这个是官方文档
+docs.oracle.com/javase
+#经常用的
+jstack
+jstack -l pid > file.log
+检查死锁
+---------------------------------------
+daemon 线程与主线程关系
+    服务关系
+    tid
+    nid
+    runnable
+-----------------------------
+jmap
+jmap -histo:live pid
+jmap -heap pid
+ PS:指的是用的是啥垃圾收集器
+    parallel scavange
+jmap -dump:live,format=b,file=filepath pid
+Eclipse MAT 工具
+
+配置jvm参数，打印gc日志
+前后总
+
+字节码与数据类型
+反编译后的class文件
+-----------------------
+字节码指令
+iLoad
+操作码+操作数
+iconst_2
+每一个字节码指令占1个字节
+
+java -verbose classname.class
+指令转换
+
+btris工具
+
+
+
+
+
+
+
